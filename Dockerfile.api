@@ -1,0 +1,34 @@
+# Dockerfile.api
+
+FROM python:3.10-slim
+
+# Create non-root user
+RUN useradd -m appuser
+
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy project files
+COPY . .
+
+# Change ownership to non-root user
+RUN chown -R appuser:appuser /app
+
+# Switch to non-root user
+USER appuser
+
+# Expose port
+EXPOSE 8000
+
+# Environment variables (can be overridden in docker-compose)
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_HOST=postgres
+ENV POSTGRES_PORT=5432
+ENV POSTGRES_DB=weather_db
+
+# Run API
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]

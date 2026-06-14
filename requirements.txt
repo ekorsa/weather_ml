@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+redis
+numpy
+pandas
+requests
+scikit-learn
+joblib
+sqlalchemy
+psycopg2-binary
+prometheus_client
+prometheus-fastapi-instrumentator
